@@ -1,5 +1,8 @@
 # Installation overview
 
+!!! tip "Confirmed setup"
+    Home Assistant OS on a Raspberry Pi, with a Linux PC for flashing (Windows as fallback). Follow the short path in [This setup](my-setup.md).
+
 The installation is a sequence of **gated** steps. Do not start a step until the previous gate has passed.
 
 | Step | Who | Pump powered? | Gate to pass |

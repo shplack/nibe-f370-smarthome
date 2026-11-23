@@ -64,6 +64,7 @@ nav:
   - Shopping list: shopping-list.md
   - Installation:
       - Overview: installation/index.md
+      - "This setup: HA OS on Pi + Linux": installation/my-setup.md
       - 1. Prepare: installation/01-prepare.md
       - 2. Build & flash gateway: installation/02-flash.md
       - 3. Bench test: installation/03-bench-test.md

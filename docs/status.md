@@ -15,16 +15,17 @@ Update this page as each item is resolved. It is the single place that says how 
 | Configuration changed | No | Menu 3.1 |
 | Git identifier | 9959073 | Menu 3.1 |
 | Serial number | On the rating plate / photo | Keep out of public repos (see note) |
-| Home Assistant | Installed and running | Owner |
+| Home Assistant | **Home Assistant OS on a Raspberry Pi**, version newer than 2025.2 | Owner, 2026-11-23 |
+| Flashing computer | Windows **and** Linux available. Linux CLI is the chosen route | Owner, 2026-11-23 |
 
 !!! warning "Serial number"
     Upstream recommends naming the gateway `nibe-<serial>-gw`. That name ends up only in your local `secrets.yaml`, which git ignores. **Do not** put the serial in this public repository.
 
 ## Open questions (answer before wiring)
 
-- [ ] **1. Waveshare ESP32-S3-RS485-CAN purchased?** → [Shopping list](shopping-list.md)
-- [ ] **2. Computer OS for flashing?** (Windows / macOS / Linux, or browser-only via the ESPHome Device Builder) → [Flash](installation/02-flash.md)
-- [ ] **3. Home Assistant installation type?** (OS / Supervised / Container / Core) → [Prepare](installation/01-prepare.md#identify-your-home-assistant-installation-type)
+- [ ] **1. Waveshare ESP32-S3-RS485-CAN purchased?** Not yet (2026-11-23) → [Shopping list](shopping-list.md)
+- [x] **2. Computer OS for flashing?** Linux (primary, ESPHome CLI) with Windows as fallback (Chrome/Edge + web.esphome.io) → [Flash](installation/02-flash.md)
+- [x] **3. Home Assistant installation type?** Home Assistant OS on a Raspberry Pi, newer than 2025.2. This meets Nibe Local Easyconf's minimum. HA OS uses host networking, so UDP and mDNS work without extra setup → [Prepare](installation/01-prepare.md#identify-your-home-assistant-installation-type)
 - [ ] **4. F370 main software version?** NIBE requires **> 3000** for MODBUS 40, and **≥ 5539** for MODBUS 40 v10 behaviour, which this gateway emulates → [Compatibility](compatibility.md#check-1-main-software-version)
 - [ ] **5. Repository/firmware support for this exact F370?** Partly verified at desk level (see below). Final proof needs the pump's product message on the bus → [Compatibility](compatibility.md)
 
@@ -40,9 +41,16 @@ Update this page as each item is resolved. It is the single place that says how 
 | `beolink/nibe-local` (old link) | ❌ 404. Use `beolink/HA-Nibe-Easyconf` |
 | Degree minutes register for F370 | ⚠️ **Not in the F370 map** (43005/40940 missing). See [Compatibility](compatibility.md#check-5-degree-minutes) |
 
+## Next actions
+
+1. Order the Waveshare ESP32-S3-RS485-CAN, USB‑C data cable and 5 V supply.
+2. While waiting: install HACS and Nibe Local Easyconf on the Pi, prepare the Linux PC, and run `esphome compile` ([This setup](installation/my-setup.md)).
+3. Look for the main software version in menu 3.1 or myUplink.
+4. Book the electrician once the bench test passes.
+
 ## Progress gates
 
-- [ ] Gate A: questions 1–4 answered
+- [ ] Gate A: questions 1–4 answered (2 and 3 done; 1 = buy board; 4 = software version)
 - [ ] Gate B: gateway flashed, on Wi-Fi, visible in logs ([Bench test](installation/03-bench-test.md))
 - [ ] Gate C: electrician connected the RS‑485 pair, pump powered back up without alarms
 - [ ] Gate D: MODBUS 40 enabled, product message reports `F370` + software version
