@@ -20,7 +20,6 @@ jobs:
           # Shops and some vendors block bots; they are excluded to avoid noise.
           args: >-
             --no-progress --max-retries 3 --accept 200,206,429
-            --exclude 'YOUR-GITHUB-USER'
             --exclude 'amazon\.' --exclude 'aliexpress\.' --exclude 'digikey\.'
             --exclude 'sonoff\.tech' --exclude 'kjell\.com'
             './**/*.md'

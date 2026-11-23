@@ -40,7 +40,7 @@ source ~/esphome-venv/bin/activate
 pip install esphome nibe
 sudo usermod -aG dialout $USER               # then log out and back in
 
-git clone https://github.com/YOUR-GITHUB-USER/nibe-f370-smarthome.git
+git clone https://github.com/shplack/nibe-f370-smarthome.git
 cd nibe-f370-smarthome
 ./firmware/fetch-upstream.sh                 # pinned upstream config + secrets.yaml with random API key
 nano firmware/upstream/esphome/secrets.yaml

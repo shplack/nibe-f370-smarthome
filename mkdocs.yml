@@ -1,8 +1,8 @@
 site_name: NIBE F370 Local Smart Home
 site_description: DIY local Home Assistant integration for the NIBE F370 heat pump using an ESP32 RS-485 gateway instead of MODBUS 40.
 # Change these two to your GitHub account/repository before publishing.
-site_url: !ENV [SITE_URL, "https://YOUR-GITHUB-USER.github.io/nibe-f370-smarthome/"]
-repo_url: https://github.com/YOUR-GITHUB-USER/nibe-f370-smarthome
+site_url: !ENV [SITE_URL, "https://shplack.github.io/nibe-f370-smarthome/"]
+repo_url: https://github.com/shplack/nibe-f370-smarthome
 repo_name: nibe-f370-smarthome
 edit_uri: edit/main/docs/
 

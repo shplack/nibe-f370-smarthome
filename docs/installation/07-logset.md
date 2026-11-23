@@ -6,8 +6,8 @@ This repository contains two files generated with upstream `tools/make_logset.py
 
 | File | Slots | Contents |
 |---|---|---|
-| [`logset/default/LOG.SET`](https://github.com/YOUR-GITHUB-USER/nibe-f370-smarthome/blob/main/logset/default/LOG.SET) | 11/20 | Upstream default selection for the F370: BT1, BT2, BT3, BT7, BT6, BT17, Calc. supply S1, compressor state, int. el. add. power, priority, alarm |
-| [`logset/extended/LOG.SET`](https://github.com/YOUR-GITHUB-USER/nibe-f370-smarthome/blob/main/logset/extended/LOG.SET) | 18/20 | Default **plus** BT20 exhaust, BT21 vented air, int. el. add. state, fan speed current, BT50 room S1, BT16 evaporator, BT18 compressor temp |
+| [`logset/default/LOG.SET`](https://github.com/shplack/nibe-f370-smarthome/blob/main/logset/default/LOG.SET) | 11/20 | Upstream default selection for the F370: BT1, BT2, BT3, BT7, BT6, BT17, Calc. supply S1, compressor state, int. el. add. power, priority, alarm |
+| [`logset/extended/LOG.SET`](https://github.com/shplack/nibe-f370-smarthome/blob/main/logset/extended/LOG.SET) | 18/20 | Default **plus** BT20 exhaust, BT21 vented air, int. el. add. state, fan speed current, BT50 room S1, BT16 evaporator, BT18 compressor temp |
 
 Start with **default**. Change to extended once everything is stable.
 
