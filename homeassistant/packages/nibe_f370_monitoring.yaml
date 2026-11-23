@@ -1,0 +1,94 @@
+# NIBE F370 - read-only monitoring helpers.
+#
+# Copy to /config/packages/ and enable packages in configuration.yaml:
+#   homeassistant:
+#     packages: !include_dir_named packages
+#
+# BEFORE USE: search-and-replace the placeholder entity IDs below with the ones
+# Nibe Local Easyconf created for your pump (Settings -> Entities, search the
+# register title). This file never writes to the heat pump.
+#
+#   sensor.nibe_bt1_outdoor        -> BT1 Outdoor Temperature   (40004)
+#   sensor.nibe_bt2_supply         -> BT2 Supply temp S1        (40008)
+#   sensor.nibe_calc_supply        -> Calc. Supply S1           (43009)
+#   sensor.nibe_bt20_exhaust       -> BT20 Exhaust air temp. 1  (40025)
+#   sensor.nibe_bt21_vented        -> BT21 Vented air temp. 1   (40026)
+#   sensor.nibe_el_add_power       -> Int. el.add. Power        (43084)
+#   sensor.nibe_alarm              -> Alarm                     (45001)
+
+template:
+  - binary_sensor:
+      - name: "NIBE F370 alarm active"
+        unique_id: nibe_f370_alarm_active
+        device_class: problem
+        state: >
+          {{ states('sensor.nibe_alarm') not in ['0', '0.0', 'unknown', 'unavailable', 'none', ''] }}
+        availability: "{{ has_value('sensor.nibe_alarm') }}"
+
+      - name: "NIBE F370 electric addition active"
+        unique_id: nibe_f370_electric_addition_active
+        device_class: heat
+        state: "{{ states('sensor.nibe_el_add_power') | float(0) > 0 }}"
+        availability: "{{ has_value('sensor.nibe_el_add_power') }}"
+
+  - sensor:
+      - name: "NIBE F370 supply deviation"
+        unique_id: nibe_f370_supply_deviation
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        state: >
+          {{ (states('sensor.nibe_bt2_supply') | float - states('sensor.nibe_calc_supply') | float) | round(1) }}
+        availability: "{{ has_value('sensor.nibe_bt2_supply') and has_value('sensor.nibe_calc_supply') }}"
+
+      - name: "NIBE F370 air heat recovery"
+        unique_id: nibe_f370_air_heat_recovery
+        unit_of_measurement: "°C"
+        device_class: temperature
+        state_class: measurement
+        state: >
+          {{ (states('sensor.nibe_bt20_exhaust') | float - states('sensor.nibe_bt21_vented') | float) | round(1) }}
+        availability: "{{ has_value('sensor.nibe_bt20_exhaust') and has_value('sensor.nibe_bt21_vented') }}"
+
+sensor:
+  # kWh used by the internal electric addition (estimate from kW reading).
+  - platform: integration
+    name: "NIBE F370 electric addition energy"
+    unique_id: nibe_f370_electric_addition_energy
+    source: sensor.nibe_el_add_power
+    unit_prefix: null
+    unit_time: h
+    method: left
+    round: 3
+
+automation:
+  - id: nibe_f370_notify_alarm
+    alias: "NIBE: notify on alarm"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.nibe_f370_alarm_active
+        to: "on"
+    action:
+      - service: persistent_notification.create
+        data:
+          title: "NIBE F370 alarm"
+          message: >
+            Alarm code {{ states('sensor.nibe_alarm') }} at {{ now().strftime('%Y-%m-%d %H:%M') }}.
+            Check the pump display. Do not reset alarms remotely.
+
+  - id: nibe_f370_notify_electric_addition
+    alias: "NIBE: notify on long electric addition"
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.nibe_f370_electric_addition_active
+        to: "on"
+        for: "00:30:00"
+    action:
+      - service: persistent_notification.create
+        data:
+          title: "NIBE F370 electric addition"
+          message: >
+            The electric additional heater has run for 30 minutes
+            ({{ states('sensor.nibe_el_add_power') }} kW, outdoor {{ states('sensor.nibe_bt1_outdoor') }} °C).

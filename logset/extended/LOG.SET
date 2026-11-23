@@ -1,0 +1,21 @@
+[NIBL;20261123;9696]
+Divisors		10	10	10	10	10	10	10	10	1	100	1	1	1	1	10	10	10	10
+Date	Time	BT1 Outdoor Temperature [C]	BT2 Supply temp S1 [C]	EB100-EP14-BT3 Return temp [C]	BT7 HW Top [C]	BT6 HW Load [C]	BT20 Exhaust air temp. 1 [C]	BT21 Vented air temp. 1 [C]	Calc. Supply S1 [C]	Compressor State EP14	Int. el.add. Power [kW]	Int. el.add. State	Prio	Alarm	Fan speed current	BT50 Room Temp S1 [C]	EB100-EP14-BT17 Suction [C]	EB100-BT16 Evaporator temp [C]	EB100-BT18 Compressor temp. [C]
+40004
+40008
+40012
+40013
+40014
+40025
+40026
+43009
+43427
+43084
+43091
+43086
+45001
+43108
+40033
+40022
+40020
+40023

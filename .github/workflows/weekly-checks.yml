@@ -1,0 +1,65 @@
+name: Weekly link and upstream check
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Shops and some vendors block bots; they are excluded to avoid noise.
+          args: >-
+            --no-progress --max-retries 3 --accept 200,206,429
+            --exclude 'YOUR-GITHUB-USER'
+            --exclude 'amazon\.' --exclude 'aliexpress\.' --exclude 'digikey\.'
+            --exclude 'sonoff\.tech' --exclude 'kjell\.com'
+            './**/*.md'
+          fail: false
+      - name: Open issue on broken links
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Broken links in documentation"
+          content-filepath: ./lychee/out.md
+          labels: docs, automated
+
+  upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare pinned upstream commits with current HEADs
+        id: cmp
+        run: |
+          set -e
+          gw_pinned=01f8f22314367ec8005ea21d12f5b5075e6cbbf0
+          ha_pinned=3412eda9f5dc0e7ffa9f8b8f2171718e63e58487
+          gw_head=$(git ls-remote https://github.com/beolink/Nibe-F-series-ModbusAdapter.git HEAD | cut -f1)
+          ha_head=$(git ls-remote https://github.com/beolink/HA-Nibe-Easyconf.git HEAD | cut -f1)
+          {
+            echo "## Upstream changed since docs were reviewed"
+            echo
+            [ "$gw_head" != "$gw_pinned" ] && echo "- Nibe-F-series-ModbusAdapter: ${gw_pinned:0:7} → ${gw_head:0:7} (https://github.com/beolink/Nibe-F-series-ModbusAdapter/compare/${gw_pinned}...${gw_head})"
+            [ "$ha_head" != "$ha_pinned" ] && echo "- HA-Nibe-Easyconf: ${ha_pinned:0:7} → ${ha_head:0:7} (https://github.com/beolink/HA-Nibe-Easyconf/compare/${ha_pinned}...${ha_head})"
+            echo
+            echo "Review wiring, pins, ports and setup steps; then update the pinned commits in docs/installation/index.md, firmware/fetch-upstream.sh and this workflow."
+          } > upstream.md || true
+          if [ "$gw_head" != "$gw_pinned" ] || [ "$ha_head" != "$ha_pinned" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Open review issue
+        if: steps.cmp.outputs.changed == 'true'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Upstream projects changed: review documentation"
+          content-filepath: ./upstream.md
+          labels: upstream, automated

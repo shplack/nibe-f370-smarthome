@@ -1,0 +1,10 @@
+# Never commit Wi-Fi passwords, API keys or the pump serial
+secrets.yaml
+**/secrets.yaml
+firmware/upstream/
+.esphome/
+site/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

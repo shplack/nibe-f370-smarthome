@@ -1,0 +1,42 @@
+name: Check docs and config
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-docs.txt
+      - run: mkdocs build --strict
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yamllint nibe
+      - name: YAML lint (HA packages and workflows)
+        run: |
+          yamllint -d "{extends: relaxed, rules: {line-length: {max: 160}}}" homeassistant .github
+      - name: Python syntax
+        run: python -m py_compile tools/verify_gateway.py
+      - name: verify_gateway.py --help works against current nibe
+        run: python tools/verify_gateway.py --help
+      - name: Shell syntax
+        run: bash -n firmware/fetch-upstream.sh
+      - name: Guard against committed secrets
+        run: |
+          if git ls-files | grep -E '(^|/)secrets\.yaml$'; then
+            echo "secrets.yaml must not be committed"; exit 1; fi

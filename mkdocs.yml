@@ -1,0 +1,87 @@
+site_name: NIBE F370 Local Smart Home
+site_description: DIY local Home Assistant integration for the NIBE F370 heat pump using an ESP32 RS-485 gateway instead of MODBUS 40.
+# Change these two to your GitHub account/repository before publishing.
+site_url: !ENV [SITE_URL, "https://YOUR-GITHUB-USER.github.io/nibe-f370-smarthome/"]
+repo_url: https://github.com/YOUR-GITHUB-USER/nibe-f370-smarthome
+repo_name: nibe-f370-smarthome
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+  icon:
+    logo: material/heat-pump
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+nav:
+  - Home: index.md
+  - Project status: status.md
+  - Safety: safety.md
+  - Technical write-up: technical.md
+  - Compatibility checks: compatibility.md
+  - Shopping list: shopping-list.md
+  - Installation:
+      - Overview: installation/index.md
+      - 1. Prepare: installation/01-prepare.md
+      - 2. Build & flash gateway: installation/02-flash.md
+      - 3. Bench test: installation/03-bench-test.md
+      - 4. Electrical connection: installation/04-electrical.md
+      - 5. Enable MODBUS 40: installation/05-enable-modbus40.md
+      - 6. Home Assistant: installation/06-home-assistant.md
+      - 7. LOG.SET: installation/07-logset.md
+  - Usage:
+      - Monitoring: usage/monitoring.md
+      - Register reference: usage/registers.md
+      - Troubleshooting: usage/troubleshooting.md
+  - Optimisation:
+      - Principles: optimisation/index.md
+      - Nord Pool prices: optimisation/nordpool.md
+      - Room sensors (Zigbee): optimisation/room-sensors.md
+      - Heating: optimisation/heating.md
+      - Hot water: optimisation/hot-water.md
+      - Ventilation & humidity: optimisation/ventilation.md
+      - Solar & battery: optimisation/solar-battery.md
+      - Energy dashboard: optimisation/energy.md
+  - Sources: sources.md
