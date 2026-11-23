@@ -9,7 +9,7 @@ Update this page as each item is resolved. It is the single place that says how 
 | Heat pump | NIBE F370, CU 3x400V | Rating plate |
 | Country | SE | Menu 3.1 |
 | Controller / product | EB100 | Menu 3.1 |
-| Display version | 9721R3 | Menu 3.1. **Display** version only, not the main software version |
+| Display version (= main software) | 9721R3 | Menu 3.1. On F-series this is the controller software version (same `NNNNRn` format NIBE uses for software minimums, e.g. 4150R7). ≥ 5539 ✅. Final confirmation on the bus at Gate D |
 | Base version | 43 | Menu 3.1 |
 | Input version | 38 | Menu 3.1 |
 | Configuration changed | No | Menu 3.1 |
@@ -26,7 +26,7 @@ Update this page as each item is resolved. It is the single place that says how 
 - [ ] **1. Waveshare ESP32-S3-RS485-CAN purchased?** Not yet (2026-11-23) → [Shopping list](shopping-list.md)
 - [x] **2. Computer OS for flashing?** Linux (primary, ESPHome CLI) with Windows as fallback (Chrome/Edge + web.esphome.io) → [Flash](installation/02-flash.md)
 - [x] **3. Home Assistant installation type?** Home Assistant OS on a Raspberry Pi, newer than 2025.2. This meets Nibe Local Easyconf's minimum. HA OS uses host networking, so UDP and mDNS work without extra setup → [Prepare](installation/01-prepare.md#identify-your-home-assistant-installation-type)
-- [ ] **4. F370 main software version?** NIBE requires **> 3000** for MODBUS 40, and **≥ 5539** for MODBUS 40 v10 behaviour, which this gateway emulates → [Compatibility](compatibility.md#check-1-main-software-version)
+- [x] **4. F370 main software version?** **9721R3** (menu 3.1 *Display version*; menu 3.1 has no other software line). NIBE requires **> 3000** for MODBUS 40, and **≥ 5539** for v10, which this gateway emulates. Passes both. Reconfirm from the product message at Gate D → [Compatibility](compatibility.md#check-1-main-software-version)
 - [ ] **5. Repository/firmware support for this exact F370?** Partly verified at desk level (see below). Final proof needs the pump's product message on the bus → [Compatibility](compatibility.md)
 
 ## Desk verification done for this project (2026-11-23)
@@ -45,12 +45,11 @@ Update this page as each item is resolved. It is the single place that says how 
 
 1. Order the Waveshare ESP32-S3-RS485-CAN, USB‑C data cable and 5 V supply.
 2. While waiting: install HACS and Nibe Local Easyconf on the Pi, prepare the Linux PC, and run `esphome compile` ([This setup](installation/my-setup.md)).
-3. Look for the main software version in menu 3.1 or myUplink.
-4. Book the electrician once the bench test passes.
+3. Book the electrician once the bench test passes.
 
 ## Progress gates
 
-- [ ] Gate A: questions 1–4 answered (2 and 3 done; 1 = buy board; 4 = software version)
+- [ ] Gate A: questions 1–4 answered (2, 3 and 4 done; 1 = buy board)
 - [ ] Gate B: gateway flashed, on Wi-Fi, visible in logs ([Bench test](installation/03-bench-test.md))
 - [ ] Gate C: electrician connected the RS‑485 pair, pump powered back up without alarms
 - [ ] Gate D: MODBUS 40 enabled, product message reports `F370` + software version

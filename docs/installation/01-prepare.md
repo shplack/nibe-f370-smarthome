@@ -4,7 +4,7 @@
 
 1. On the F370 display, open **menu 3.1 Service info**.
 2. Write down every version line. You already have: display 9721R3, base 43, input 38, git 9959073.
-3. Look for a separate **software / programvara** line. If one exists, record it in [Project status](../status.md).
+3. There is no separate *software / programvara* line. The **Display version** (9721R3) is the main software version.
 4. If myUplink is available, check *Software version* there as well.
 5. Also check that **menu 5.2 System settings** opens on your unit. Hold **Back** for 7 seconds in the main menu to open the service menu (menu 5). Just look; **do not change anything yet**.
 

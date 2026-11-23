@@ -11,19 +11,19 @@ Complete every check before the electrician opens the pump. Each check lists the
 
 The gateway introduces itself as a **MODBUS 40 v10**, so aim for **≥ 5539**.
 
-**What we know:** menu 3.1 shows *Display version 9721R3*, *Base version 43*, *Input version 38*. 9721R3 belongs to the display firmware and is **not** the main controller software number used in that requirement. The F-series display line (the display's "version" field) often uses a 4-digit+R format. Treat it as unverified.
+**What we know:** menu 3.1 shows *Display version 9721R3*, *Base version 43*, *Input version 38*. On F-series units, menu 3.1 has **no separate "software" line**. The *Display version* is the controller software version. It has the same `NNNNRn` format NIBE uses in the MODBUS 40 manual for software minimums (*"5539 (4150R7 for NIBE F1345)"*), and the manual points to menu 3.1 to check it. *Base* and *Input* are the circuit-board firmware revisions.
 
-**How to close it (in order of effort):**
+**Verdict:** 9721R3 → main software **9721**, which is above both 3000 and 5539. ✅ (owner checked menu 3.1, 2026-11-23)
 
-1. **Menu 3.1 on the display.** Scroll the whole list. Some F370 builds show *software version* or *programvara* separately from display/base/input.
-2. **myUplink / NIBE Uplink** (if the pump was ever connected): *System → Software* shows the installed version and whether an update exists.
-3. **Ask the installer/NIBE support** with the serial number.
-4. **On the bus, after installation:** the pump's product message contains the main software version. Run [`tools/verify_gateway.py`](https://github.com/shplack/nibe-f370-smarthome/blob/main/tools/verify_gateway.py) or read the Nibe Local Easyconf device page. Use this as the final confirmation.
+**Confirm (optional, then final):**
+
+1. **myUplink / NIBE Uplink** (if the pump was ever connected): *Software* shows the installed version.
+2. **On the bus, after installation:** the pump's product message contains the software version, and register 43001 holds it too. Run [`tools/verify_gateway.py`](https://github.com/shplack/nibe-f370-smarthome/blob/main/tools/verify_gateway.py) or read the Nibe Local Easyconf device page.
 
 **If it is ≤ 5539 or unknown:** update the pump from a USB stick with NIBE's latest F370 software before relying on the gateway. NIBE distributes it through myUplink/NIBE Uplink (*Software*) or your installer. The update uses the same display USB port, under menu 7.1. Follow NIBE's instructions for your exact model.
 
 !!! note "Base 43 / Input 38"
-    These are the base board and input board (AA3) firmware revisions. They show the controller's board generation. They do not replace the main software number.
+    These are the base board and input board (AA3) firmware revisions. They show the controller's board generation. The main software number is the *Display version*.
 
 ## Check 2: F370 support in the gateway project
 
