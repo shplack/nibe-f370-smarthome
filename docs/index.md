@@ -28,7 +28,7 @@ Use Home Assistant to monitor and later optimise a **NIBE F370** exhaust-air hea
 1. [Project status](status.md): the open questions to answer before buying or wiring.
 2. [Technical write-up](technical.md): how the bus, the gateway and the integration work.
 3. [Compatibility checks](compatibility.md): what has been verified for the F370 and what has not.
-4. [Shopping list](shopping-list.md): about 390–690 SEK.
+4. [Shopping list](shopping-list.md): about 340–670 SEK.
 5. [Installation](installation/index.md): eight gated steps. Do not skip the gates.
 
 !!! info "Not affiliated with NIBE"
